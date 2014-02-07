@@ -37,9 +37,18 @@
     static NSDateFormatter *dateFormatter;
     if (!dateFormatter) {
         dateFormatter = [NSDateFormatter new];
-        dateFormatter.dateFormat = @"h a";
+        dateFormatter.dateStyle = NSDateFormatterNoStyle;
+        dateFormatter.timeStyle = NSDateFormatterShortStyle;
+        
     }
-    self.title.text = [dateFormatter stringFromDate:time];
+    
+    NSString *timeString = [dateFormatter stringFromDate:time];
+    timeString = [timeString stringByReplacingOccurrencesOfString:@":00 AM" withString:@" AM"];
+    timeString = [timeString stringByReplacingOccurrencesOfString:@":00 am" withString:@" am"];
+    timeString = [timeString stringByReplacingOccurrencesOfString:@":00 PM" withString:@" PM"];
+    timeString = [timeString stringByReplacingOccurrencesOfString:@":00 pm" withString:@" pm"];
+    
+    self.title.text = timeString;
     [self setNeedsLayout];
 }
 
